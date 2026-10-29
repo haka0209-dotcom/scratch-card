@@ -181,31 +181,31 @@
         </div>
 
         <!-- STEP 3: All Claimed Screen (Shown when all 7 tickets used) -->
-    <div id="step-empty" class="hidden bg-red-950/80 backdrop-blur-md rounded-2xl p-8 gold-border card-shadow text-center text-white">
-        <div class="w-20 h-20 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-400/40">
-            <i class="fa-solid fa-box-open text-yellow-300 text-3xl"></i>
+        <div id="step-empty" class="hidden bg-red-950/80 backdrop-blur-md rounded-2xl p-8 gold-border card-shadow text-center text-white">
+            <div class="w-20 h-20 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-400/40">
+                <i class="fa-solid fa-box-open text-yellow-300 text-3xl"></i>
+            </div>
+            <h2 class="text-2xl font-black text-yellow-300 mb-2">刮刮樂已全部刮完！</h2>
+            <p class="text-sm text-red-200 mb-6 leading-relaxed">
+                感謝大家的熱烈參與！本次活動的 7 份名額與好禮已經全數被刮開完畢囉。
+            </p>
+            <div class="p-4 bg-black/30 rounded-xl border border-yellow-500/30 text-left space-y-2 text-xs text-amber-200">
+                <div class="font-bold text-yellow-400 text-sm mb-1 border-b border-yellow-500/20 pb-1">活動公告：</div>
+                <p>若您先前已刮過獎項，您的獲獎記錄已安全保存於本機裝置中。</p>
+            </div>
         </div>
-        <h2 class="text-2xl font-black text-yellow-300 mb-2">刮刮樂已全部刮完！</h2>
-        <p class="text-sm text-red-200 mb-6 leading-relaxed">
-            感謝大家的熱烈參與！本次活動的 7 份名額與好禮已經全數被刮開完畢囉。
+
+    </main>
+
+    <!-- Footer Disclaimer with Secret Organizer Trigger -->
+    <footer class="w-full max-w-md text-center py-4 z-10 text-xs text-red-200/70 select-none">
+        <p id="secret-trigger" onclick="handleSecretClick()" class="cursor-pointer hover:text-yellow-300 transition-colors">
+            © 幸運線上特別活動 · 僅供活動抽獎使用
         </p>
-        <div class="p-4 bg-black/30 rounded-xl border border-yellow-500/30 text-left space-y-2 text-xs text-amber-200">
-            <div class="font-bold text-yellow-400 text-sm mb-1 border-b border-yellow-500/20 pb-1">活動公告：</div>
-            <p>若您先前已刮過獎項，您的獲獎記錄已安全保存於本機裝置中。</p>
-        </div>
-    </div>
+    </footer>
 
-</main>
-
-<!-- Footer Disclaimer with Secret Organizer Trigger -->
-<footer class="w-full max-w-md text-center py-4 z-10 text-xs text-red-200/70 select-none">
-    <p id="secret-trigger" onclick="handleSecretClick()" class="cursor-pointer hover:text-yellow-300 transition-colors">
-        © 幸運線上特別活動 · 僅供活動抽獎使用
-    </p>
-</footer>
-
-<!-- SUCCESS REVEAL MODAL -->
-<div id="result-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <!-- SUCCESS REVEAL MODAL -->
+    <div id="result-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="bg-gradient-to-b from-red-900 to-red-950 border-2 border-yellow-400 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl transform scale-90 transition-transform duration-300" id="modal-card">
             
             <div class="w-20 h-20 bg-gradient-to-tr from-yellow-300 to-amber-500 rounded-full flex items-center justify-center mx-auto -mt-12 shadow-xl border-4 border-red-900">
@@ -231,51 +231,51 @@
             </div>
 
             <button onclick="closeModal()" class="w-full py-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-red-950 font-black rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition">
-            確定並完成
-        </button>
+                確定並完成
+            </button>
+        </div>
     </div>
-</div>
 
-<!-- ORGANIZER LIST MODAL (Secret Panel) -->
-<div id="organizer-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-    <div class="bg-gradient-to-b from-gray-900 to-black border-2 border-yellow-400/80 rounded-3xl p-5 max-w-md w-full text-white shadow-2xl transform scale-90 transition-transform duration-300" id="organizer-card">
-        
-        <div class="flex justify-between items-center border-b border-gray-700 pb-3 mb-4">
-            <div class="flex items-center space-x-2 text-yellow-400">
-                <i class="fa-solid fa-clipboard-list text-xl"></i>
-                <h3 class="text-lg font-bold">主辦人中獎紀錄清單</h3>
+    <!-- ORGANIZER LIST MODAL (Secret Panel) -->
+    <div id="organizer-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-gradient-to-b from-gray-900 to-black border-2 border-yellow-400/80 rounded-3xl p-5 max-w-md w-full text-white shadow-2xl transform scale-90 transition-transform duration-300" id="organizer-card">
+            
+            <div class="flex justify-between items-center border-b border-gray-700 pb-3 mb-4">
+                <div class="flex items-center space-x-2 text-yellow-400">
+                    <i class="fa-solid fa-clipboard-list text-xl"></i>
+                    <h3 class="text-lg font-bold">主辦人中獎紀錄清單</h3>
+                </div>
+                <button onclick="closeOrganizerModal()" class="text-gray-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
             </div>
-            <button onclick="closeOrganizerModal()" class="text-gray-400 hover:text-white p-1">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-        </div>
 
-        <!-- Records List Container -->
-        <div id="organizer-records-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs">
-            <!-- Dynamic Records inserted here -->
-        </div>
+            <!-- Records List Container -->
+            <div id="organizer-records-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs">
+                <!-- Dynamic Records inserted here -->
+            </div>
 
-        <div class="mt-5 pt-3 border-t border-gray-800 flex space-x-2">
-            <button onclick="copyRecordsToClipboard()" class="flex-1 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-gray-950 font-bold rounded-xl transition flex items-center justify-center space-x-1.5">
-                <i class="fa-solid fa-copy"></i>
-                <span>複製完整名單</span>
-            </button>
-            <button onclick="closeOrganizerModal()" class="px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold rounded-xl transition">
-                關閉
-            </button>
+            <div class="mt-5 pt-3 border-t border-gray-800 flex space-x-2">
+                <button onclick="copyRecordsToClipboard()" class="flex-1 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-gray-950 font-bold rounded-xl transition flex items-center justify-center space-x-1.5">
+                    <i class="fa-solid fa-copy"></i>
+                    <span>複製完整名單</span>
+                </button>
+                <button onclick="closeOrganizerModal()" class="px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold rounded-xl transition">
+                    關閉
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- JAVASCRIPT LOGIC -->
-<script>
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
         // --- 1. PRIZE POOL DEFINITION (Total 7 prizes) ---
         const INITIAL_PRIZES = [
             {
                 id: 1,
                 name: "寶瑞葉黃素 1罐",
                 iconClass: "fa-solid fa-capsules",
-                color: "#10B981" // Emerald
+                color: "#10B981"
             },
             {
                 id: 2,
@@ -316,22 +316,22 @@
         ];
 
         // LOCAL STORAGE KEYS
-    const STORAGE_KEY_REMAINING = "scratch_app_remaining_prizes_v1";
-    const STORAGE_KEY_RECORDS = "scratch_app_win_records_v1";
-    const STORAGE_KEY_MY_RESULT = "scratch_app_my_result_v1";
+        const STORAGE_KEY_REMAINING = "scratch_app_remaining_prizes_v1";
+        const STORAGE_KEY_RECORDS = "scratch_app_win_records_v1";
+        const STORAGE_KEY_MY_RESULT = "scratch_app_my_result_v1";
 
-    // APP STATE
-    let remainingPrizes = [];
-    let currentUserName = "";
-    let currentAssignedPrize = null;
-    let isRevealed = false;
-    let isScratching = false;
-    let secretClickCount = 0;
-    let secretClickTimer = null;
+        // APP STATE
+        let remainingPrizes = [];
+        let currentUserName = "";
+        let currentAssignedPrize = null;
+        let isRevealed = false;
+        let isScratching = false;
+        let secretClickCount = 0;
+        let secretClickTimer = null;
 
-    // CANVAS VARS
-    let canvas, ctx;
-    let totalPixels = 0;
+        // CANVAS VARS
+        let canvas, ctx;
+        let totalPixels = 0;
 
         // --- 2. INITIALIZATION ---
         window.addEventListener('DOMContentLoaded', () => {
@@ -340,7 +340,6 @@
             checkUserHistory();
         });
 
-        // Initialize Local Storage for tracking remaining 7 cards
         function initStorageData() {
             const savedRemaining = localStorage.getItem(STORAGE_KEY_REMAINING);
             if (savedRemaining !== null) {
@@ -355,7 +354,6 @@
             }
         }
 
-        // Check if user already played on this device
         function checkUserHistory() {
             const myResult = localStorage.getItem(STORAGE_KEY_MY_RESULT);
             if (myResult) {
@@ -365,8 +363,6 @@
                 currentUserName = data.userName;
                 currentAssignedPrize = data.prize;
                 displayPrizeUnderCanvas(currentAssignedPrize);
-                
-                // Immediately reveal canvas without animation since already claimed
                 revealCanvasSilently();
                 document.getElementById('remaining-count').innerText = remainingPrizes.length;
             } else {
@@ -402,15 +398,12 @@
             currentUserName = nameInput;
             document.getElementById('display-user-name').innerText = currentUserName;
 
-            // Pick a random prize from current available pool
             const randomIndex = Math.floor(Math.random() * remainingPrizes.length);
             currentAssignedPrize = remainingPrizes[randomIndex];
 
-            // Remove assigned prize from pool and save
             remainingPrizes.splice(randomIndex, 1);
             localStorage.setItem(STORAGE_KEY_REMAINING, JSON.stringify(remainingPrizes));
 
-            // Save player's record
             const record = {
                 userName: currentUserName,
                 prize: currentAssignedPrize,
@@ -418,24 +411,20 @@
             };
             localStorage.setItem(STORAGE_KEY_MY_RESULT, JSON.stringify(record));
 
-            // Save to global list of records
             const existingRecords = JSON.parse(localStorage.getItem(STORAGE_KEY_RECORDS) || "[]");
             existingRecords.push(record);
             localStorage.setItem(STORAGE_KEY_RECORDS, JSON.stringify(existingRecords));
 
-            // Update UI
             document.getElementById('remaining-count').innerText = remainingPrizes.length;
             displayPrizeUnderCanvas(currentAssignedPrize);
             
             showStep('scratch');
 
-            // Reset canvas on next animation frame after container becomes visible to ensure valid dimensions
             requestAnimationFrame(() => {
                 resetCanvasFoil();
             });
         }
 
-        // Display prize item layout
         function displayPrizeUnderCanvas(prize) {
             const iconContainer = document.getElementById('prize-icon-container');
             const titleElem = document.getElementById('prize-title');
@@ -450,7 +439,6 @@
             canvas = document.getElementById('scratch-canvas');
             ctx = canvas.getContext('2d', { willReadFrequently: true });
 
-            // Event Listeners for Scratching
             canvas.addEventListener('mousedown', startScratch);
             canvas.addEventListener('touchstart', startScratch, { passive: false });
 
@@ -460,7 +448,6 @@
             window.addEventListener('mouseup', endScratch);
             window.addEventListener('touchend', endScratch);
 
-            // Handle Resize
             window.addEventListener('resize', () => {
                 if (!isRevealed && currentAssignedPrize) {
                     resetCanvasFoil();
@@ -472,7 +459,6 @@
             if (!canvas) return;
             const rect = canvas.getBoundingClientRect();
             
-            // Safety check: Avoid setting 0 dimensions
             if (rect.width === 0 || rect.height === 0) return;
 
             canvas.width = rect.width;
@@ -481,9 +467,8 @@
             totalPixels = canvas.width * canvas.height;
             isRevealed = false;
 
-            // Draw Metallic Foil
             const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#D4AF37'); // Gold
+            gradient.addColorStop(0, '#D4AF37');
             gradient.addColorStop(0.25, '#FFF8DC');
             gradient.addColorStop(0.5, '#AA771C');
             gradient.addColorStop(0.75, '#FFD700');
@@ -492,7 +477,6 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Add Decorative Pattern Text on Foil
             ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
             ctx.font = 'bold 16px Noto Sans TC, sans-serif';
             ctx.textAlign = 'center';
@@ -547,17 +531,14 @@
             isScratching = false;
         }
 
-        // Calculate cleared percentage to trigger auto-reveal
         function checkScratchPercentage() {
             if (isRevealed || !canvas || canvas.width === 0 || canvas.height === 0) return;
 
             try {
-                // Sample pixels for performance
                 const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const pixels = imageData.data;
                 let clearedCount = 0;
 
-                // Check alpha channel in increments
                 for (let i = 3; i < pixels.length; i += 32) {
                     if (pixels[i] === 0) {
                         clearedCount++;
@@ -569,7 +550,7 @@
                 
                 const percentage = (clearedCount / totalSampled) * 100;
 
-                if (percentage > 45) { // 45% cleared -> Auto Reveal
+                if (percentage > 45) {
                     autoRevealPrize();
                 }
             } catch (err) {
@@ -577,83 +558,16 @@
             }
         }
 
-        function getPosition(e) {
-            const rect = canvas.getBoundingClientRect();
-            let clientX = e.clientX;
-            let clientY = e.clientY;
-
-            if (e.touches && e.touches.length > 0) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            }
-
-            return {
-                x: clientX - rect.left,
-                y: clientY - rect.top
-            };
-        }
-
-        function startScratch(e) {
-            if (isRevealed) return;
-            isScratching = true;
-            scratchMove(e);
-        }
-
-        function scratchMove(e) {
-            if (!isScratching || isRevealed) return;
-            if (e.cancelable) e.preventDefault();
-
-            const pos = getPosition(e);
-
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, 22, 0, Math.PI * 2);
-            ctx.fill();
-
-            checkScratchPercentage();
-        }
-
-        function endScratch() {
-            isScratching = false;
-        }
-
-        // Calculate cleared percentage to trigger auto-reveal
-        function checkScratchPercentage() {
-            if (isRevealed) return;
-
-            // Sample pixels for performance
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const pixels = imageData.data;
-            let clearedCount = 0;
-
-            // Check alpha channel in increments
-            for (let i = 3; i < pixels.length; i += 32) {
-                if (pixels[i] === 0) {
-                    clearedCount++;
-                }
-            }
-
-            const totalSampled = pixels.length / 32;
-            const percentage = (clearedCount / totalSampled) * 100;
-
-            if (percentage > 45) { // 45% cleared -> Auto Reveal
-                autoRevealPrize();
-            }
-        }
-
         function autoRevealPrize() {
             isRevealed = true;
-            // Clear canvas completely
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Trigger celebration confetti
             confetti({
                 particleCount: 100,
                 spread: 70,
                 origin: { y: 0.6 }
             });
 
-            // Show Winner Modal
             setTimeout(() => {
                 showModal();
             }, 400);
@@ -682,94 +596,93 @@
         }
 
         function closeModal() {
-        const modal = document.getElementById('result-modal');
-        const modalCard = document.getElementById('modal-card');
-        
-        modal.classList.add('opacity-0', 'pointer-events-none');
-        modalCard.classList.remove('scale-100');
-        modalCard.classList.add('scale-90');
-    }
-
-    // --- 6. ORGANIZER SECRET LIST LOGIC ---
-    function handleSecretClick() {
-        secretClickCount++;
-        clearTimeout(secretClickTimer);
-
-        if (secretClickCount >= 3) {
-            secretClickCount = 0;
-            openOrganizerModal();
-        } else {
-            secretClickTimer = setTimeout(() => {
-                secretClickCount = 0;
-            }, 1000);
+            const modal = document.getElementById('result-modal');
+            const modalCard = document.getElementById('modal-card');
+            
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalCard.classList.remove('scale-100');
+            modalCard.classList.add('scale-90');
         }
-    }
 
-    function openOrganizerModal() {
-        const records = JSON.parse(localStorage.getItem(STORAGE_KEY_RECORDS) || "[]");
-        const container = document.getElementById('organizer-records-list');
+        // --- 6. ORGANIZER SECRET LIST LOGIC ---
+        function handleSecretClick() {
+            secretClickCount++;
+            clearTimeout(secretClickTimer);
 
-        if (records.length === 0) {
-            container.innerHTML = `
-                <div class="text-center py-8 text-gray-500">
-                    <i class="fa-solid fa-inbox text-3xl mb-2"></i>
-                    <p>目前尚無任何刮獎紀錄</p>
-                </div>
-            `;
-        } else {
-            container.innerHTML = records.map((rec, index) => {
-                const date = new Date(rec.claimedAt).toLocaleString('zh-TW', {
-                    month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
-                });
-                return `
-                    <div class="p-3 bg-gray-800/80 rounded-xl border border-gray-700/60 flex items-center justify-between">
-                        <div>
-                            <div class="font-bold text-yellow-300 text-sm">#${index + 1} ${rec.userName}</div>
-                            <div class="text-gray-300 font-medium text-xs mt-0.5">${rec.prize.name}</div>
-                        </div>
-                        <div class="text-[10px] text-gray-400 ml-2 whitespace-nowrap">${date}</div>
+            if (secretClickCount >= 3) {
+                secretClickCount = 0;
+                openOrganizerModal();
+            } else {
+                secretClickTimer = setTimeout(() => {
+                    secretClickCount = 0;
+                }, 1000);
+            }
+        }
+
+        function openOrganizerModal() {
+            const records = JSON.parse(localStorage.getItem(STORAGE_KEY_RECORDS) || "[]");
+            const container = document.getElementById('organizer-records-list');
+
+            if (records.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fa-solid fa-inbox text-3xl mb-2"></i>
+                        <p>目前尚無任何刮獎紀錄</p>
                     </div>
                 `;
-            }).join('');
+            } else {
+                container.innerHTML = records.map((rec, index) => {
+                    const date = new Date(rec.claimedAt).toLocaleString('zh-TW', {
+                        month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+                    });
+                    return `
+                        <div class="p-3 bg-gray-800/80 rounded-xl border border-gray-700/60 flex items-center justify-between">
+                            <div>
+                                <div class="font-bold text-yellow-300 text-sm">#${index + 1} ${rec.userName}</div>
+                                <div class="text-gray-300 font-medium text-xs mt-0.5">${rec.prize.name}</div>
+                            </div>
+                            <div class="text-[10px] text-gray-400 ml-2 whitespace-nowrap">${date}</div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            const modal = document.getElementById('organizer-modal');
+            const modalCard = document.getElementById('organizer-card');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modalCard.classList.remove('scale-90');
+            modalCard.classList.add('scale-100');
         }
 
-        const modal = document.getElementById('organizer-modal');
-        const modalCard = document.getElementById('organizer-card');
-        modal.classList.remove('opacity-0', 'pointer-events-none');
-        modalCard.classList.remove('scale-90');
-        modalCard.classList.add('scale-100');
-    }
-
-    function closeOrganizerModal() {
-        const modal = document.getElementById('organizer-modal');
-        const modalCard = document.getElementById('organizer-card');
-        modal.classList.add('opacity-0', 'pointer-events-none');
-        modalCard.classList.remove('scale-100');
-        modalCard.classList.add('scale-90');
-    }
-
-    function copyRecordsToClipboard() {
-        const records = JSON.parse(localStorage.getItem(STORAGE_KEY_RECORDS) || "[]");
-        if (records.length === 0) {
-            alert('尚無紀錄可複製');
-            return;
+        function closeOrganizerModal() {
+            const modal = document.getElementById('organizer-modal');
+            const modalCard = document.getElementById('organizer-card');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalCard.classList.remove('scale-100');
+            modalCard.classList.add('scale-90');
         }
 
-        let text = "🏆 刮刮樂得獎名單紀錄 🏆\n---------------------\n";
-        records.forEach((rec, i) => {
-            text += `${i + 1}. 【${rec.userName}】 - ${rec.prize.name}\n`;
-        });
+        function copyRecordsToClipboard() {
+            const records = JSON.parse(localStorage.getItem(STORAGE_KEY_RECORDS) || "[]");
+            if (records.length === 0) {
+                alert('尚無紀錄可複製');
+                return;
+            }
 
-        // Use standard copy trick
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
+            let text = "🏆 刮刮樂得獎名單紀錄 🏆\n---------------------\n";
+            records.forEach((rec, i) => {
+                text += `${i + 1}. 【${rec.userName}】 - ${rec.prize.name}\n`;
+            });
 
-        alert('得獎名單已成功複製到剪貼簿！');
-    }
-</script>
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+
+            alert('得獎名單已成功複製到剪貼簿！');
+        }
+    </script>
 </body>
 </html>
