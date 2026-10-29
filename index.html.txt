@@ -1,688 +1,473 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>幸運線上刮刮樂 - 7大好禮等您拿</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;800;900&display=swap" rel="stylesheet">
-    <!-- Canvas Confetti for Celebration Effects -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>線上專屬刮刮樂</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --primary: #e63946;
+      --primary-dark: #c1121f;
+      --gold: #ffb703;
+      --bg: #1a1a2e;
+      --card-bg: #16213e;
+      --text: #ffffff;
+    }
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            red: '#D32F2F',
-                            darkRed: '#8B0000',
-                            gold: '#FFD700',
-                            darkGold: '#B8860B',
-                            accent: '#FFF8DC'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Noto Sans TC', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
 
-    <style>
-        body {
-            background: radial-gradient(circle, #b91c1c 0%, #7f1d1d 70%, #450a0a 100%);
-            touch-action: manipulation;
-            user-select: none;
-            -webkit-user-select: none;
-        }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 15px;
+    }
 
-        /* Gold metallic frame styling */
-        .gold-border {
-            border: 4px solid #FFD700;
-            background: linear-gradient(135deg, #FFE259 0%, #FFA751 100%);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4), inset 0 0 10px rgba(255,255,255,0.8);
-        }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 500px;
+    }
 
-        .card-shadow {
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(255, 215, 0, 0.2);
-        }
+    h1 {
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin-bottom: 5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      cursor: pointer;
+      user-select: none;
+    }
 
-        /* Canvas overlay styling */
-        #scratch-canvas {
-            cursor: pointer;
-            touch-action: none;
-        }
+    .card-container {
+      width: 100%;
+      max-width: 380px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border: 2px solid var(--gold);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
 
-        /* Custom shimmer animations */
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
+    .ticket-tag {
+      background: var(--primary);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
 
-        .shimmer-text {
-            background: linear-gradient(90deg, #FFE57F, #FFFFFF, #FFE57F);
-            background-size: 200% auto;
-            color: transparent;
-            -webkit-background-clip: text;
-            animation: shimmer 3s infinite linear;
-        }
+    .scratch-area {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      background: #fff;
+    }
 
-        @keyframes bounce-subtle {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-        }
+    .prize-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      z-index: 1;
+    }
 
-        .bounce-anim {
-            animation: bounce-subtle 2s infinite ease-in-out;
-        }
-    </style>
+    .prize-icon {
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+    }
+
+    .prize-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--primary-dark);
+      line-height: 1.5;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      touch-action: none;
+      z-index: 10;
+    }
+
+    .action-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      background: #e5a300;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #fff;
+      color: #333;
+      width: 100%;
+      max-width: 450px;
+      border-radius: 15px;
+      padding: 20px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #888;
+    }
+
+    .list-item {
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+      font-size: 0.85rem;
+    }
+
+    .reset-btn {
+      margin-top: 15px;
+      background: transparent;
+      color: #888;
+      border: none;
+      font-size: 0.85rem;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+  </style>
 </head>
-<body class="min-h-screen font-sans text-gray-800 flex flex-col justify-between items-center p-4 relative overflow-x-hidden">
+<body>
 
-    <!-- Background Decorative Elements -->
-    <div class="fixed inset-0 pointer-events-none opacity-10 flex justify-between items-center px-4">
-        <i class="fa-solid fa-gifts text-9xl text-yellow-300 transform -rotate-12"></i>
-        <i class="fa-solid fa-trophy text-9xl text-yellow-300 transform rotate-12"></i>
+  <header>
+    <h1 id="headerTitle" onclick="handleTitleClick()">幸運線上刮刮樂</h1>
+  </header>
+
+  <div class="card-container">
+    <div class="ticket-tag" id="ticketTag">載入中...</div>
+    
+    <div class="scratch-area">
+      <div class="prize-layer">
+        <div class="prize-icon">🎁</div>
+        <div id="prizeTitle" class="prize-title"></div>
+      </div>
+      <canvas id="scratchCanvas"></canvas>
     </div>
 
-    <!-- Header Section -->
-    <header class="w-full max-w-md text-center my-4 z-10">
-        <div class="inline-block px-4 py-1 rounded-full bg-yellow-400/20 border border-yellow-300/40 text-yellow-200 text-xs font-semibold mb-2 tracking-wider">
-            ✨ 限時專屬特別活動 ✨
+    <button id="claimBtn" class="action-btn" style="display:none;" onclick="openClaimModal()">填寫領獎姓名</button>
+    <button class="reset-btn" onclick="resetCurrentTicket()">重設此張卡片 (重新刮)</button>
+  </div>
+
+  <!-- 領獎資料 Modal -->
+  <div id="claimModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('claimModal')">&times;</span>
+      <div class="modal-title">🎉 恭喜中獎！請填寫領獎資料</div>
+      <form id="claimForm" onsubmit="handleFormSubmit(event)">
+        <div class="form-group">
+          <label>得獎人姓名 *</label>
+          <input type="text" id="userName" required placeholder="請輸入您的姓名">
         </div>
-        <h1 class="text-3xl sm:text-4xl font-black text-yellow-300 tracking-wide shimmer-text filter drop-shadow-md">
-            幸運好禮刮刮樂
-        </h1>
-        <p class="text-red-100 text-sm mt-1 opacity-90">刮出屬於您的專屬驚喜好禮！</p>
-    </header>
-
-    <!-- Main Dynamic Area -->
-    <main class="w-full max-w-md my-auto z-10">
-
-        <!-- STEP 1: Enter Name Screen -->
-        <div id="step-name" class="bg-red-950/80 backdrop-blur-md rounded-2xl p-6 gold-border card-shadow text-center transform transition-all duration-300">
-            <div class="w-16 h-16 bg-gradient-to-tr from-yellow-400 to-amber-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                <i class="fa-solid fa-user-tag text-red-800 text-2xl"></i>
-            </div>
-            
-            <h2 class="text-xl font-bold text-gray-900 mb-2">請先輸入您的姓名</h2>
-            <p class="text-xs text-amber-900 font-medium mb-5">每人限刮一次，刮開後獎項將記名儲存</p>
-
-            <form id="name-form" onsubmit="handleStartScratch(event)" class="space-y-4">
-                <div class="relative">
-                    <input type="text" id="user-name-input" required placeholder="請輸入您的真實姓名" 
-                           class="w-full px-4 py-3 text-center text-lg rounded-xl border-2 border-amber-300 focus:border-red-600 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-inner bg-amber-50/90 text-gray-900 font-bold placeholder-gray-400">
-                </div>
-                <button type="submit" 
-                        class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-red-600 via-red-500 to-amber-600 text-white font-extrabold text-lg shadow-lg hover:brightness-110 active:scale-95 transition-all duration-150 flex items-center justify-center space-x-2 border border-yellow-300">
-                    <span>開始準備刮獎</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </form>
-        </div>
-
-        <!-- STEP 2: Scratch Card Screen (Hidden initially) -->
-        <div id="step-scratch" class="hidden flex-col items-center">
-            
-            <!-- Welcome Bar -->
-            <div class="w-full bg-red-900/90 text-amber-200 px-4 py-2 rounded-xl border border-amber-400/30 flex justify-between items-center mb-4 text-sm font-semibold shadow">
-                <span><i class="fa-solid fa-user-circle mr-1.5 text-yellow-400"></i> 參加者：<span id="display-user-name" class="text-white underline decoration-yellow-400">---</span></span>
-                <span class="text-xs bg-yellow-400/20 px-2.5 py-0.5 rounded-full text-yellow-300 border border-yellow-400/30">剩餘 <span id="remaining-count">7</span>/7 張</span>
-            </div>
-
-            <!-- Scratch Card Frame -->
-            <div class="relative w-full bg-gradient-to-b from-amber-100 to-amber-200 rounded-2xl p-4 gold-border card-shadow overflow-hidden">
-                
-                <!-- Card Header -->
-                <div class="text-center mb-3">
-                    <span class="text-xs uppercase font-extrabold tracking-widest text-red-700 bg-red-100 px-3 py-1 rounded-full border border-red-200">
-                        Scratch & Win
-                    </span>
-                    <h3 class="text-lg font-black text-red-800 mt-1">請在下方金色區塊刮出獎項</h3>
-                </div>
-
-                <!-- Scratch Area Wrapper -->
-                <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden border-2 border-amber-400 bg-white shadow-inner flex items-center justify-center">
-                    
-                    <!-- REVEALED PRIZE CONTENT (Underneath Canvas) -->
-                    <div id="prize-reveal-box" class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center bg-gradient-to-br from-amber-50 via-white to-red-50">
-                        <!-- Dynamic Prize Icon -->
-                        <div id="prize-icon-container" class="w-20 h-20 mb-3 rounded-2xl bg-amber-100 flex items-center justify-center text-red-600 shadow-md border border-amber-200">
-                            <!-- Icon inserted dynamically -->
-                        </div>
-                        
-                        <!-- Prize Category Tag -->
-                        <span id="prize-tag" class="text-xs font-bold text-red-600 bg-red-100 px-2.5 py-0.5 rounded-full mb-1">
-                            恭喜獲得
-                        </span>
-
-                        <!-- Prize Name -->
-                        <h2 id="prize-title" class="text-lg sm:text-xl font-black text-gray-900 leading-tight px-2">
-                            ---
-                        </h2>
-                    </div>
-
-                    <!-- CANVAS FOIL OVERLAY -->
-                    <canvas id="scratch-canvas" class="absolute inset-0 w-full h-full z-10"></canvas>
-                </div>
-
-                <!-- Bottom Helper Indicator -->
-                <div class="mt-3 text-center text-xs font-bold text-amber-900/80 flex items-center justify-center space-x-1 bounce-anim">
-                    <i class="fa-solid fa-hand-pointer text-amber-700"></i>
-                    <span>請用手指或滑鼠塗抹刮開覆膜</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- STEP 3: All Claimed Screen (Shown when all 7 tickets used) -->
-        <div id="step-empty" class="hidden bg-red-950/80 backdrop-blur-md rounded-2xl p-8 gold-border card-shadow text-center text-white">
-            <div class="w-20 h-20 bg-yellow-400/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-400/40">
-                <i class="fa-solid fa-box-open text-yellow-300 text-3xl"></i>
-            </div>
-            <h2 class="text-2xl font-black text-yellow-300 mb-2">刮刮樂已全部刮完！</h2>
-            <p class="text-sm text-red-200 mb-6 leading-relaxed">
-                感謝大家的熱烈參與！本次活動的 7 份名額與好禮已經全數被刮開完畢囉。
-            </p>
-            <div class="p-4 bg-black/30 rounded-xl border border-yellow-500/30 text-left space-y-2 text-xs text-amber-200">
-                <div class="font-bold text-yellow-400 text-sm mb-1 border-b border-yellow-500/20 pb-1">活動公告：</div>
-                <p>若您先前已刮過獎項，您的獲獎記錄已安全保存於本機裝置中。</p>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Footer Disclaimer with Secret Organizer Trigger -->
-    <footer class="w-full max-w-md text-center py-4 z-10 text-xs text-red-200/70 select-none">
-        <p id="secret-trigger" onclick="handleSecretClick()" class="cursor-pointer hover:text-yellow-300 transition-colors">
-            © 幸運線上特別活動 · 僅供活動抽獎使用
-        </p>
-    </footer>
-
-    <!-- SUCCESS REVEAL MODAL -->
-    <div id="result-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="bg-gradient-to-b from-red-900 to-red-950 border-2 border-yellow-400 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl transform scale-90 transition-transform duration-300" id="modal-card">
-            
-            <div class="w-20 h-20 bg-gradient-to-tr from-yellow-300 to-amber-500 rounded-full flex items-center justify-center mx-auto -mt-12 shadow-xl border-4 border-red-900">
-                <i class="fa-solid fa-crown text-red-900 text-3xl"></i>
-            </div>
-
-            <h3 class="text-2xl font-black text-yellow-300 mt-3">恭喜中獎！</h3>
-            <p class="text-xs text-red-200 mt-1">請截圖此畫面向主辦單位領獎</p>
-
-            <!-- Winner & Prize Summary Card -->
-            <div class="my-5 p-4 rounded-2xl bg-amber-50 text-gray-900 border-2 border-amber-300 shadow-inner">
-                <div class="text-xs text-amber-800 font-bold border-b border-amber-200 pb-1.5 mb-2 flex justify-between items-center">
-                    <span>獲獎者姓名：</span>
-                    <span id="modal-user-name" class="text-sm font-black text-red-700">---</span>
-                </div>
-                
-                <div id="modal-prize-icon" class="text-4xl text-red-600 my-2">
-                    <!-- Icon -->
-                </div>
-                <div id="modal-prize-name" class="text-base font-black text-gray-800 leading-snug px-1">
-                    ---
-                </div>
-            </div>
-
-            <button onclick="closeModal()" class="w-full py-3 bg-gradient-to-r from-yellow-400 to-amber-500 text-red-950 font-black rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition">
-                確定並完成
-            </button>
-        </div>
+        <button type="submit" class="submit-btn">確認送出領獎</button>
+      </form>
     </div>
+  </div>
 
-    <!-- ORGANIZER LIST MODAL (Secret Panel) -->
-    <div id="organizer-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="bg-gradient-to-b from-gray-900 to-black border-2 border-yellow-400/80 rounded-3xl p-5 max-w-md w-full text-white shadow-2xl transform scale-90 transition-transform duration-300" id="organizer-card">
-            
-            <div class="flex justify-between items-center border-b border-gray-700 pb-3 mb-4">
-                <div class="flex items-center space-x-2 text-yellow-400">
-                    <i class="fa-solid fa-clipboard-list text-xl"></i>
-                    <h3 class="text-lg font-bold">主辦人中獎紀錄清單</h3>
-                </div>
-                <button onclick="closeOrganizerModal()" class="text-gray-400 hover:text-white p-1">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-
-            <!-- Records List Container -->
-            <div id="organizer-records-list" class="max-h-60 overflow-y-auto space-y-2 pr-1 text-xs">
-                <!-- Dynamic Records inserted here -->
-            </div>
-
-            <div class="mt-5 pt-3 border-t border-gray-800 flex space-x-2">
-                <button onclick="copyRecordsToClipboard()" class="flex-1 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-gray-950 font-bold rounded-xl transition flex items-center justify-center space-x-1.5">
-                    <i class="fa-solid fa-copy"></i>
-                    <span>複製完整名單</span>
-                </button>
-                <button onclick="closeOrganizerModal()" class="px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-200 font-bold rounded-xl transition">
-                    關閉
-                </button>
-            </div>
-        </div>
+  <!-- 主辦人專區 Modal -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('adminModal')">&times;</span>
+      <div class="modal-title">主辦人管理後台</div>
+      <button class="submit-btn" style="background:#2a9d8f; margin-bottom:15px;" onclick="copyData()">複製所有得獎名單</button>
+      <button class="submit-btn" style="background:#e63946; margin-bottom:15px;" onclick="clearAllData()">清空本機所有測試紀錄</button>
+      <div id="adminList"></div>
     </div>
+  </div>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // --- 1. PRIZE POOL DEFINITION (Total 7 prizes) ---
-        const INITIAL_PRIZES = [
-            {
-                id: 1,
-                name: "寶瑞葉黃素 1罐",
-                iconClass: "fa-solid fa-capsules",
-                color: "#10B981"
-            },
-            {
-                id: 2,
-                name: "LE BORN靜謐森林護手霜/旅行沐浴組 1份",
-                iconClass: "fa-solid fa-pump-soap",
-                color: "#059669"
-            },
-            {
-                id: 3,
-                name: "Taiwolf Classic 束口袋(台灣製造) / Good Night Spray 晚安睡眠噴霧 1份",
-                iconClass: "fa-solid fa-spray-can-sparkles",
-                color: "#6366F1"
-            },
-            {
-                id: 4,
-                name: "2026台灣職棒總冠軍味全龍披巾 / 檜沐先生萬用雙效洗滌露隨身瓶 1份",
-                iconClass: "fa-solid fa-baseball-bat-ball",
-                color: "#EF4444"
-            },
-            {
-                id: 5,
-                name: "雅聞大馬士革玫瑰氨基酸淨白洗卸二用慕絲 1罐 / 霓淨思玻尿酸保濕水平衡賦能面膜 5片",
-                iconClass: "fa-solid fa-sparkles",
-                color: "#EC4899"
-            },
-            {
-                id: 6,
-                name: "義美生技高蛋白 1盒",
-                iconClass: "fa-solid fa-dumbbell",
-                color: "#F59E0B"
-            },
-            {
-                id: 7,
-                name: "義美生技高蛋白 1盒",
-                iconClass: "fa-solid fa-dumbbell",
-                color: "#F59E0B"
-            }
-        ];
+  <script>
+    const ticketsData = {
+      "1": { name: "(1) 寶瑞葉黃素 1罐" },
+      "2": { name: "(2) LE BORN靜謐森林護手霜 / 旅行沐浴組" },
+      "3": { name: "(3) Taiwolf Classic 束口袋 / Good Night Spray 晚安睡眠噴霧" },
+      "4": { name: "(4) 味全龍披巾 / 檜沐先生萬用雙效洗滌露隨身瓶" },
+      "5": { name: "(5) 雅聞大馬士革玫瑰慕絲 / 霓淨思面膜 5片" },
+      "6": { name: "(6) 義美生技高蛋白 1盒 (名額A)" },
+      "7": { name: "(7) 義美生技高蛋白 1盒 (名額B)" }
+    };
 
-        // LOCAL STORAGE KEYS
-        const STORAGE_KEY_REMAINING = "scratch_app_remaining_prizes_v1";
-        const STORAGE_KEY_RECORDS = "scratch_app_win_records_v1";
-        const STORAGE_KEY_MY_RESULT = "scratch_app_my_result_v1";
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentTicket = urlParams.get('ticket') || "1";
+    let isAdminParam = urlParams.get('admin');
 
-        // APP STATE
-        let remainingPrizes = [];
-        let currentUserName = "";
-        let currentAssignedPrize = null;
-        let isRevealed = false;
-        let isScratching = false;
-        let secretClickCount = 0;
-        let secretClickTimer = null;
+    const canvas = document.getElementById('scratchCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let isScratchedEnough = false;
+    let titleClickCount = 0;
+    let titleClickTimer = null;
 
-        // CANVAS VARS
-        let canvas, ctx;
-        let totalPixels = 0;
+    function init() {
+      const ticketInfo = ticketsData[currentTicket] || ticketsData["1"];
+      document.getElementById('ticketTag').innerText = `專屬刮刮卡 - 第 ${currentTicket} 張`;
+      document.getElementById('prizeTitle').innerText = ticketInfo.name;
 
-        // --- 2. INITIALIZATION ---
-        window.addEventListener('DOMContentLoaded', () => {
-            initStorageData();
-            setupCanvas();
-            checkUserHistory();
-        });
+      if (isAdminParam === 'true') {
+        openAdminModal();
+      }
 
-        function initStorageData() {
-            const savedRemaining = localStorage.getItem(STORAGE_KEY_REMAINING);
-            if (savedRemaining !== null) {
-                try {
-                    remainingPrizes = JSON.parse(savedRemaining);
-                } catch(e) {
-                    remainingPrizes = [...INITIAL_PRIZES];
-                }
-            } else {
-                remainingPrizes = [...INITIAL_PRIZES];
-                localStorage.setItem(STORAGE_KEY_REMAINING, JSON.stringify(remainingPrizes));
-            }
+      const savedData = localStorage.getItem(`scratch_ticket_${currentTicket}`);
+      if (savedData) {
+        showCompletedState(JSON.parse(savedData));
+      } else {
+        setupCanvas();
+      }
+    }
+
+    function handleTitleClick() {
+      titleClickCount++;
+      clearTimeout(titleClickTimer);
+      if (titleClickCount >= 3) {
+        openAdminModal();
+        titleClickCount = 0;
+      } else {
+        titleClickTimer = setTimeout(() => { titleClickCount = 0; }, 1000);
+      }
+    }
+
+    function setupCanvas() {
+      canvas.width = 300;
+      canvas.height = 300;
+      canvas.style.display = 'block';
+      document.getElementById('claimBtn').style.display = 'none';
+      isScratchedEnough = false;
+
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = '#C0C0C0';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#555555';
+      ctx.font = 'bold 22px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('刮開銀漆 揭曉獎項', 150, 150);
+    }
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    function scratch(e) {
+      if (!isDrawing || isScratchedEnough) return;
+      e.preventDefault();
+      const pos = getPos(e);
+
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, 25, 0, Math.PI * 2);
+      ctx.fill();
+
+      checkScratchPercentage();
+    }
+
+    canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+    canvas.addEventListener('mousemove', scratch);
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+    canvas.addEventListener('touchmove', scratch);
+    canvas.addEventListener('touchend', () => isDrawing = false);
+
+    function checkScratchPercentage() {
+      if (isScratchedEnough) return;
+      
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const pixels = imageData.data;
+      let clearCount = 0;
+
+      for (let i = 3; i < pixels.length; i += 4) {
+        if (pixels[i] === 0) clearCount++;
+      }
+
+      if (clearCount / (pixels.length / 4) > 0.35) {
+        isScratchedEnough = true;
+        canvas.style.display = 'none';
+        document.getElementById('claimBtn').style.display = 'block';
+        confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+      }
+    }
+
+    function openClaimModal() { document.getElementById('claimModal').style.display = 'flex'; }
+    function openAdminModal() { 
+      renderAdminList();
+      document.getElementById('adminModal').style.display = 'flex'; 
+    }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const formData = {
+        ticket: currentTicket,
+        prize: ticketsData[currentTicket].name,
+        name: document.getElementById('userName').value,
+        time: new Date().toLocaleString()
+      };
+
+      localStorage.setItem(`scratch_ticket_${currentTicket}`, JSON.stringify(formData));
+      closeModal('claimModal');
+      showCompletedState(formData);
+      alert('領獎資料已順利送出！');
+    }
+
+    function showCompletedState(data) {
+      canvas.style.display = 'none';
+      const btn = document.getElementById('claimBtn');
+      btn.style.display = 'block';
+      btn.style.background = '#2a9d8f';
+      btn.innerText = `已完成領獎 (${data.name})`;
+      btn.onclick = () => {
+        alert(`【領獎明細】\n得獎人姓名：${data.name}`);
+      };
+    }
+
+    function resetCurrentTicket() {
+      localStorage.removeItem(`scratch_ticket_${currentTicket}`);
+      location.reload();
+    }
+
+    function renderAdminList() {
+      const container = document.getElementById('adminList');
+      container.innerHTML = '';
+      for (let i = 1; i <= 7; i++) {
+        const data = localStorage.getItem(`scratch_ticket_${i}`);
+        const div = document.createElement('div');
+        div.className = 'list-item';
+        if (data) {
+          const item = JSON.parse(data);
+          div.innerHTML = `<strong>卡片 ${i} (已領獎)</strong><br>獎項：${item.prize}<br>得獎人：${item.name}`;
+        } else {
+          div.innerHTML = `<strong>卡片 ${i}</strong>：尚未刮開 / 尚無領獎紀錄`;
         }
+        container.appendChild(div);
+      }
+    }
 
-        function checkUserHistory() {
-            const myResult = localStorage.getItem(STORAGE_KEY_MY_RESULT);
-            if (myResult) {
-                const data = JSON.parse(myResult);
-                showStep('scratch');
-                document.getElementById('display-user-name').innerText = data.userName;
-                currentUserName = data.userName;
-                currentAssignedPrize = data.prize;
-                displayPrizeUnderCanvas(currentAssignedPrize);
-                revealCanvasSilently();
-                document.getElementById('remaining-count').innerText = remainingPrizes.length;
-            } else {
-                if (remainingPrizes.length === 0) {
-                    showStep('empty');
-                } else {
-                    showStep('name');
-                }
-            }
+    function copyData() {
+      let result = "【刮刮樂得獎總名單】\n\n";
+      for (let i = 1; i <= 7; i++) {
+        const data = localStorage.getItem(`scratch_ticket_${i}`);
+        if (data) {
+          const item = JSON.parse(data);
+          result += `[卡號 ${i}] ${item.prize}\n姓名：${item.name}\n------------------\n`;
+        } else {
+          result += `[卡號 ${i}] 未領獎\n------------------\n`;
         }
+      }
+      navigator.clipboard.writeText(result).then(() => alert('已複製所有得獎名單至剪貼簿！'));
+    }
 
-        function showStep(stepName) {
-            document.getElementById('step-name').classList.add('hidden');
-            document.getElementById('step-scratch').classList.add('hidden');
-            document.getElementById('step-empty').classList.add('hidden');
+    function clearAllData() {
+      for (let i = 1; i <= 7; i++) {
+        localStorage.removeItem(`scratch_ticket_${i}`);
+      }
+      location.reload();
+    }
 
-            if (stepName === 'name') document.getElementById('step-name').classList.remove('hidden');
-            if (stepName === 'scratch') document.getElementById('step-scratch').classList.remove('hidden');
-            if (stepName === 'empty') document.getElementById('step-empty').classList.remove('hidden');
-        }
-
-        // --- 3. STEP 1: USER SUBMITS NAME ---
-        function handleStartScratch(event) {
-            event.preventDefault();
-            const nameInput = document.getElementById('user-name-input').value.trim();
-            if (!nameInput) return;
-
-            if (remainingPrizes.length === 0) {
-                showStep('empty');
-                return;
-            }
-
-            currentUserName = nameInput;
-            document.getElementById('display-user-name').innerText = currentUserName;
-
-            const randomIndex = Math.floor(Math.random() * remainingPrizes.length);
-            currentAssignedPrize = remainingPrizes[randomIndex];
-
-            remainingPrizes.splice(randomIndex, 1);
-            localStorage.setItem(STORAGE_KEY_REMAINING, JSON.stringify(remainingPrizes));
-
-            const record = {
-                userName: currentUserName,
-                prize: currentAssignedPrize,
-                claimedAt: new Date().toISOString()
-            };
-            localStorage.setItem(STORAGE_KEY_MY_RESULT, JSON.stringify(record));
-
-            const existingRecords = JSON.parse(localStorage.getItem(STORAGE_KEY_RECORDS) || "[]");
-            existingRecords.push(record);
-            localStorage.setItem(STORAGE_KEY_RECORDS, JSON.stringify(existingRecords));
-
-            document.getElementById('remaining-count').innerText = remainingPrizes.length;
-            displayPrizeUnderCanvas(currentAssignedPrize);
-            
-            showStep('scratch');
-
-            requestAnimationFrame(() => {
-                resetCanvasFoil();
-            });
-        }
-
-        function displayPrizeUnderCanvas(prize) {
-            const iconContainer = document.getElementById('prize-icon-container');
-            const titleElem = document.getElementById('prize-title');
-
-            iconContainer.innerHTML = `<i class="${prize.iconClass} text-3xl"></i>`;
-            iconContainer.style.color = prize.color;
-            titleElem.innerText = prize.name;
-        }
-
-        // --- 4. CANVAS SCRATCH FOIL LOGIC ---
-        function setupCanvas() {
-            canvas = document.getElementById('scratch-canvas');
-            ctx = canvas.getContext('2d', { willReadFrequently: true });
-
-            canvas.addEventListener('mousedown', startScratch);
-            canvas.addEventListener('touchstart', startScratch, { passive: false });
-
-            window.addEventListener('mousemove', scratchMove);
-            window.addEventListener('touchmove', scratchMove, { passive: false });
-
-            window.addEventListener('mouseup', endScratch);
-            window.addEventListener('touchend', endScratch);
-
-            window.addEventListener('resize', () => {
-                if (!isRevealed && currentAssignedPrize) {
-                    resetCanvasFoil();
-                }
-            });
-        }
-
-        function resetCanvasFoil() {
-            if (!canvas) return;
-            const rect = canvas.getBoundingClientRect();
-            
-            if (rect.width === 0 || rect.height === 0) return;
-
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-
-            totalPixels = canvas.width * canvas.height;
-            isRevealed = false;
-
-            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-            gradient.addColorStop(0, '#D4AF37');
-            gradient.addColorStop(0.25, '#FFF8DC');
-            gradient.addColorStop(0.5, '#AA771C');
-            gradient.addColorStop(0.75, '#FFD700');
-            gradient.addColorStop(1, '#B8860B');
-
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
-            ctx.font = 'bold 16px Noto Sans TC, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            
-            const stepY = 40;
-            const stepX = 80;
-            for (let y = 20; y < canvas.height; y += stepY) {
-                for (let x = 40; x < canvas.width; x += stepX) {
-                    ctx.fillText('刮開此處', x, y);
-                }
-            }
-        }
-
-        function getPosition(e) {
-            const rect = canvas.getBoundingClientRect();
-            let clientX = e.clientX;
-            let clientY = e.clientY;
-
-            if (e.touches && e.touches.length > 0) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            }
-
-            return {
-                x: clientX - rect.left,
-                y: clientY - rect.top
-            };
-        }
-
-        function startScratch(e) {
-            if (isRevealed) return;
-            isScratching = true;
-            scratchMove(e);
-        }
-
-        function scratchMove(e) {
-            if (!isScratching || isRevealed) return;
-            if (e.cancelable) e.preventDefault();
-
-            const pos = getPosition(e);
-
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, 22, 0, Math.PI * 2);
-            ctx.fill();
-
-            checkScratchPercentage();
-        }
-
-        function endScratch() {
-            isScratching = false;
-        }
-
-        function checkScratchPercentage() {
-            if (isRevealed || !canvas || canvas.width === 0 || canvas.height === 0) return;
-
-            try {
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const pixels = imageData.data;
-                let clearedCount = 0;
-
-                for (let i = 3; i < pixels.length; i += 32) {
-                    if (pixels[i] === 0) {
-                        clearedCount++;
-                    }
-                }
-
-                const totalSampled = pixels.length / 32;
-                if (totalSampled === 0) return;
-                
-                const percentage = (clearedCount / totalSampled) * 100;
-
-                if (percentage > 45) {
-                    autoRevealPrize();
-                }
-            } catch (err) {
-                console.warn("Scratch check skipped due to canvas dimension delay.", err);
-            }
-        }
-
-        function autoRevealPrize() {
-            isRevealed = true;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-
-            setTimeout(() => {
-                showModal();
-            }, 400);
-        }
-
-        function revealCanvasSilently() {
-            isRevealed = true;
-            if (ctx && canvas) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
-        }
-
-        // --- 5. RESULT MODAL ---
-        function showModal() {
-            document.getElementById('modal-user-name').innerText = currentUserName;
-            document.getElementById('modal-prize-name').innerText = currentAssignedPrize.name;
-            document.getElementById('modal-prize-icon').innerHTML = `<i class="${currentAssignedPrize.iconClass}"></i>`;
-            document.getElementById('modal-prize-icon').style.color = currentAssignedPrize.color;
-
-            const modal = document.getElementById('result-modal');
-            const modalCard = document.getElementById('modal-card');
-            
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modalCard.classList.remove('scale-90');
-            modalCard.classList.add('scale-100');
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('result-modal');
-            const modalCard = document.getElementById('modal-card');
-            
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modalCard.classList.remove('scale-100');
-            modalCard.classList.add('scale-90');
-        }
-
-        // --- 6. ORGANIZER SECRET LIST LOGIC ---
-        function handleSecretClick() {
-            secretClickCount++;
-            clearTimeout(secretClickTimer);
-
-            if (secretClickCount >= 3) {
-                secretClickCount = 0;
-                openOrganizerModal();
-            } else {
-                secretClickTimer = setTimeout(() => {
-                    secretClickCount = 0;
-                }, 1000);
-            }
-        }
-
-        function openOrganizerModal() {
-            const records = JSON.parse(localStorage.getItem(STORAGE_KEY_RECORDS) || "[]");
-            const container = document.getElementById('organizer-records-list');
-
-            if (records.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fa-solid fa-inbox text-3xl mb-2"></i>
-                        <p>目前尚無任何刮獎紀錄</p>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = records.map((rec, index) => {
-                    const date = new Date(rec.claimedAt).toLocaleString('zh-TW', {
-                        month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
-                    });
-                    return `
-                        <div class="p-3 bg-gray-800/80 rounded-xl border border-gray-700/60 flex items-center justify-between">
-                            <div>
-                                <div class="font-bold text-yellow-300 text-sm">#${index + 1} ${rec.userName}</div>
-                                <div class="text-gray-300 font-medium text-xs mt-0.5">${rec.prize.name}</div>
-                            </div>
-                            <div class="text-[10px] text-gray-400 ml-2 whitespace-nowrap">${date}</div>
-                        </div>
-                    `;
-                }).join('');
-            }
-
-            const modal = document.getElementById('organizer-modal');
-            const modalCard = document.getElementById('organizer-card');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modalCard.classList.remove('scale-90');
-            modalCard.classList.add('scale-100');
-        }
-
-        function closeOrganizerModal() {
-            const modal = document.getElementById('organizer-modal');
-            const modalCard = document.getElementById('organizer-card');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modalCard.classList.remove('scale-100');
-            modalCard.classList.add('scale-90');
-        }
-
-        function copyRecordsToClipboard() {
-            const records = JSON.parse(localStorage.getItem(STORAGE_KEY_RECORDS) || "[]");
-            if (records.length === 0) {
-                alert('尚無紀錄可複製');
-                return;
-            }
-
-            let text = "🏆 刮刮樂得獎名單紀錄 🏆\n---------------------\n";
-            records.forEach((rec, i) => {
-                text += `${i + 1}. 【${rec.userName}】 - ${rec.prize.name}\n`;
-            });
-
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-
-            alert('得獎名單已成功複製到剪貼簿！');
-        }
-    </script>
+    window.onload = init;
+  </script>
 </body>
 </html>
